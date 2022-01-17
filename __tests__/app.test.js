@@ -74,4 +74,17 @@ describe("3. PATCH /api/articles", () => {
         expect(body.article.votes).toEqual(50);
       });
   });
+  test("status:400, responds with error for invalid vote", () => {
+    const article = {
+      inc_votes: "not_number",
+    };
+    return request(app)
+      .patch("/api/articles/1")
+      .send(article)
+      .expect(400)
+      .then(({ body }) => {
+        console.log(body);
+        expect(body.msg).toEqual("Invalid vote value");
+      });
+  });
 });
