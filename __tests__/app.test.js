@@ -46,3 +46,32 @@ describe("2. GET /api/articles/:article_id", () => {
       });
   });
 });
+
+describe("3. PATCH /api/articles", () => {
+  test("status:200, responds with article with increased vote count", () => {
+    const article = {
+      inc_votes: 1,
+    };
+    return request(app)
+      .patch("/api/articles/1")
+      .send(article)
+      .expect(200)
+      .then(({ body }) => {
+        console.log(body);
+        expect(body.article.votes).toEqual(101);
+      });
+  });
+  test("status:200, responds with article with decreased vote count", () => {
+    const article = {
+      inc_votes: -50,
+    };
+    return request(app)
+      .patch("/api/articles/1")
+      .send(article)
+      .expect(200)
+      .then(({ body }) => {
+        console.log(body);
+        expect(body.article.votes).toEqual(50);
+      });
+  });
+});
