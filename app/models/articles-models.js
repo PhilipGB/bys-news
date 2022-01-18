@@ -26,11 +26,9 @@ exports.selectArticles = (sort_by = "created_at", order = "desc", topic) => {
     articlesQuery += ` WHERE articles.topic = '${topic}'`;
   }
 
-  articlesQuery += ` GROUP BY articles.article_id`;
+  articlesQuery += ` GROUP BY articles.article_id ORDER BY ${sort_by} ${order};`;
 
-  return db
-    .query(articlesQuery + ` ORDER BY ${sort_by} ${order};`)
-    .then((result) => result.rows);
+  return db.query(articlesQuery).then((result) => result.rows);
 };
 
 // JOIN comments ON articles.article_id = comments.article_id;
@@ -70,4 +68,18 @@ exports.updateVotesById = (article_id, inc_votes) => {
       [votes, article_id]
     )
     .then((result) => result.rows[0]);
+};
+
+exports.selectArticleComments = (article_id) => {
+  return db
+    .query(
+      `
+          SELECT 
+              author AS username, body 
+          FROM comments 
+          WHERE article_id = $1;
+      `,
+      [article_id]
+    )
+    .then((result) => result.rows);
 };

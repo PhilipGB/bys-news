@@ -62,7 +62,7 @@ describe("2. GET /api/articles/:article_id", () => {
   });
 });
 
-describe("3. PATCH /api/articles", () => {
+describe("3. PATCH /api/articles/:article_id", () => {
   test("status:200, responds with article with increased vote count", () => {
     const article = {
       inc_votes: 1,
@@ -207,6 +207,25 @@ describe("4. GET /api/articles", () => {
         expect(
           res.body.articles.every((article) => article.topic === "cats")
         ).toBe(true);
+      });
+  });
+});
+
+describe("5. GET /api/articles/:article_id/comments", () => {
+  test("status:200, responds with an array of topics objects", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        comments.forEach((comment) => {
+          expect(comment).toEqual(
+            expect.objectContaining({
+              username: expect.any(String),
+              body: expect.any(String),
+            })
+          );
+        });
       });
   });
 });
