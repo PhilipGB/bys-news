@@ -1,8 +1,7 @@
 const commentsRouter = require("express").Router();
+const { removeComment } = require("../controllers/comments-controllers.js");
 
-commentsRouter.delete("/", (req, res) => {
-  res.status(204).send({ msg: "All OK from Delete Comments Router" });
-});
+commentsRouter.delete("/:comment_id", removeComment);
 
 commentsRouter.patch("/", (req, res) => {
   res.status(200).send({ msg: "All OK from Patch Comments Router" });

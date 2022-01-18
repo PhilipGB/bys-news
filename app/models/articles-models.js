@@ -1,4 +1,3 @@
-const format = require("pg-format");
 const db = require("../../db/connection.js");
 
 exports.selectArticles = (sort_by = "created_at", order = "desc", topic) => {
@@ -97,5 +96,3 @@ exports.insertArticleComment = (article_id, username, body) => {
     )
     .then(({ rows }) => rows[0]);
 };
-
-// ``

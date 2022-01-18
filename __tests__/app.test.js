@@ -253,3 +253,44 @@ describe("6. POST /api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe("6. POST /api/articles/:article_id/comments", () => {
+  test("status:201, responds with posted comment", () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "Test commment on article 1",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        const { comment } = body;
+        expect(comment).toEqual({
+          article_id: 1,
+          comment_id: expect.any(Number),
+          created_at: expect.any(String),
+          votes: expect.any(Number),
+          author: newComment.username,
+          body: newComment.body,
+        });
+      });
+  });
+});
+
+describe("7. DELETE /api/comments/:comment_id", () => {
+  test("status:204, responds with no content", () => {
+    return request(app).delete("/api/comments/1").expect(204);
+  });
+});
+
+describe("8. GET /api", () => {
+  test("status:200, responds with an object of endpoints", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toEqual(require("../app/endpoints.json"));
+      });
+  });
+});
