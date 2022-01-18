@@ -7,6 +7,21 @@ const seed = require("../db/seeds/seed.js");
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
+describe("0. GET /notARoute", () => {
+  it("responds with status: 404 for invalid route", () => {
+    return request(app)
+      .get("/notARoute")
+      .expect(404)
+      .then((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            msg: "Invalid URL",
+          })
+        );
+      });
+  });
+});
+
 describe("1. GET /api/topics", () => {
   test("status:200, responds with an array of topics objects", () => {
     return request(app)
@@ -57,7 +72,6 @@ describe("3. PATCH /api/articles", () => {
       .send(article)
       .expect(200)
       .then(({ body }) => {
-        console.log(body);
         expect(body.article.votes).toEqual(101);
       });
   });
@@ -70,7 +84,6 @@ describe("3. PATCH /api/articles", () => {
       .send(article)
       .expect(200)
       .then(({ body }) => {
-        console.log(body);
         expect(body.article.votes).toEqual(50);
       });
   });
@@ -85,6 +98,115 @@ describe("3. PATCH /api/articles", () => {
       .then(({ body }) => {
         console.log(body);
         expect(body.msg).toEqual("Invalid vote value");
+      });
+  });
+});
+
+describe("4. GET /api/articles", () => {
+  it("responds with status: 200 and a json object containing all articles with comment count", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .expect("Content-Type", "application/json; charset=utf-8")
+      .then((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            articles: expect.any(Array),
+          })
+        );
+        expect(res.body.articles[0]).toEqual({
+          author: expect.any(String),
+          title: expect.any(String),
+          article_id: expect.any(Number),
+          topic: expect.any(String),
+          created_at: expect.any(String),
+          votes: expect.any(Number),
+          comment_count: expect.any(Number),
+        });
+      });
+  });
+
+  it("responds with status: 400 for invalid sort query", () => {
+    return request(app)
+      .get("/api/articles?sort_by=INVALID")
+      .expect(400)
+      .then((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            msg: "Invalid sort query",
+          })
+        );
+      });
+  });
+
+  it("responds with status: 400 for invalid sort order", () => {
+    return request(app)
+      .get("/api/articles?order=INVALID")
+      .expect(400)
+      .then((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            msg: "Invalid order query",
+          })
+        );
+      });
+  });
+
+  it("responds with status: 400 for invalid topics query", () => {
+    return request(app)
+      .get("/api/articles?topic=INVALID;")
+      .expect(400)
+      .then((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            msg: "Invalid topic query",
+          })
+        );
+      });
+  });
+
+  it("responds with status: 200 and a json object containing articles sorted by votes", () => {
+    return request(app)
+      .get("/api/articles?sort_by=votes")
+      .expect(200)
+      .expect("Content-Type", "application/json; charset=utf-8")
+      .then((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            articles: expect.any(Array),
+          })
+        );
+      });
+  });
+
+  it("responds with status: 200 and a json object containing articles sorted descending", () => {
+    return request(app)
+      .get("/api/articles?order=desc")
+      .expect(200)
+      .expect("Content-Type", "application/json; charset=utf-8")
+      .then((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            articles: expect.any(Array),
+          })
+        );
+      });
+  });
+
+  it('responds with status: 200 and a object containing "cats" topic', () => {
+    return request(app)
+      .get("/api/articles?topic=cats")
+      .expect(200)
+      .expect("Content-Type", "application/json; charset=utf-8")
+      .then((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            articles: expect.any(Array),
+          })
+        );
+        expect(
+          res.body.articles.every((article) => article.topic === "cats")
+        ).toBe(true);
       });
   });
 });

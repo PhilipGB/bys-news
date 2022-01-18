@@ -2,11 +2,10 @@ const articlesRouter = require("express").Router();
 const {
   getArticleById,
   patchVotesById,
+  getArticles,
 } = require("../controllers/articles-controllers.js");
 
-articlesRouter.get("/", (req, res) => {
-  res.status(200).send({ msg: "All OK from Articles Router" });
-});
+articlesRouter.get("/", getArticles);
 
 articlesRouter.get("/:article_id", getArticleById);
 articlesRouter.patch("/:article_id", patchVotesById);
