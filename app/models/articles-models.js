@@ -1,3 +1,4 @@
+const format = require("pg-format");
 const db = require("../../db/connection.js");
 
 exports.selectArticles = (sort_by = "created_at", order = "desc", topic) => {
@@ -83,3 +84,18 @@ exports.selectArticleComments = (article_id) => {
     )
     .then((result) => result.rows);
 };
+
+exports.insertArticleComment = (article_id, username, body) => {
+  return db
+    .query(
+      `INSERT INTO comments 
+        (author, article_id, body) 
+      VALUES 
+        ($1, $2, $3) 
+      RETURNING *;`,
+      [username, article_id, body]
+    )
+    .then(({ rows }) => rows[0]);
+};
+
+// ``

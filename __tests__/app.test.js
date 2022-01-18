@@ -229,3 +229,27 @@ describe("5. GET /api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe("6. POST /api/articles/:article_id/comments", () => {
+  test("status:201, responds with posted comment", () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "Test commment on article 1",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        const { comment } = body;
+        expect(comment).toEqual({
+          article_id: 1,
+          comment_id: expect.any(Number),
+          created_at: expect.any(String),
+          votes: expect.any(Number),
+          author: newComment.username,
+          body: newComment.body,
+        });
+      });
+  });
+});
