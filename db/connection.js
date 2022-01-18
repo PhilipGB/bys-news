@@ -20,4 +20,4 @@ const config =
       }
     : {};
 
-module.exports = new Pool();
+module.exports = new Pool(config);
