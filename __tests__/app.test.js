@@ -118,7 +118,6 @@ describe("3. PATCH /api/articles/:article_id", () => {
       .send(article)
       .expect(400)
       .then(({ body }) => {
-        console.log(body);
         expect(body.msg).toEqual("Invalid vote value");
       });
   });
@@ -129,7 +128,6 @@ describe("3. PATCH /api/articles/:article_id", () => {
       .send(article)
       .expect(405)
       .then(({ body }) => {
-        console.log(body);
         expect(body.msg).toEqual("Invalid request body");
       });
   });
@@ -143,7 +141,6 @@ describe("3. PATCH /api/articles/:article_id", () => {
       .send(article)
       .expect(405)
       .then(({ body }) => {
-        console.log(body);
         expect(body.msg).toEqual("Invalid request body");
       });
   });
@@ -378,6 +375,12 @@ describe("6. POST /api/articles/:article_id/comments", () => {
 describe("7. DELETE /api/comments/:comment_id", () => {
   test("status:204, responds with no content", () => {
     return request(app).delete("/api/comments/1").expect(204);
+  });
+  test("status: 404, comment id does not exist", () => {
+    return request(app).delete("/api/comments/1000").expect(404);
+  });
+  test("status: 400, invalid comment id", () => {
+    return request(app).delete("/api/comments/INVALID").expect(400);
   });
 });
 

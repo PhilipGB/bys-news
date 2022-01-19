@@ -6,10 +6,11 @@ const app = express();
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log(req.method, req.path);
-  next();
-});
+// TODO Logging
+// app.use((req, res, next) => {
+//   console.log(req.method, req.path);
+//   next();
+// });
 
 app.use("/api", apiRouter);
 app.all("/*", invalidURL);
