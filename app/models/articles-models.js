@@ -31,8 +31,6 @@ exports.selectArticles = (sort_by = "created_at", order = "desc", topic) => {
   return db.query(articlesQuery).then((result) => result.rows);
 };
 
-// JOIN comments ON articles.article_id = comments.article_id;
-
 exports.selectArticleById = (article_id) => {
   return db
     .query(
@@ -97,7 +95,15 @@ exports.selectArticleComments = (article_id) => {
       `,
       [article_id]
     )
-    .then((result) => result.rows);
+    .then((result) => {
+      if (result.rowCount) {
+        return result.rows;
+      }
+      return Promise.reject({
+        status: 404,
+        msg: `No article found for id ${article_id}`,
+      });
+    });
 };
 
 exports.insertArticleComment = (article_id, username, body) => {
@@ -110,5 +116,15 @@ exports.insertArticleComment = (article_id, username, body) => {
       RETURNING *;`,
       [username, article_id, body]
     )
-    .then(({ rows }) => rows[0]);
+    .then(({ rows }) => rows[0])
+    .catch((err) => {
+      if (err.constraint === "comments_article_id_fkey") {
+        return Promise.reject({
+          status: 404,
+          msg: `No article found for id ${article_id}`,
+        });
+      }
+
+      throw err;
+    });
 };

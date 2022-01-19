@@ -287,27 +287,25 @@ describe("5. GET /api/articles/:article_id/comments", () => {
         });
       });
   });
-});
-
-describe("6. POST /api/articles/:article_id/comments", () => {
-  test("status:201, responds with posted comment", () => {
-    const newComment = {
-      username: "butter_bridge",
-      body: "Test commment on article 1",
-    };
+  test("status:404, article id not found", () => {
+    const article_id = 1000;
     return request(app)
-      .post("/api/articles/1/comments")
-      .send(newComment)
-      .expect(201)
+      .get(`/api/articles/${article_id}/comments`)
+      .expect(404)
       .then(({ body }) => {
-        const { comment } = body;
-        expect(comment).toEqual({
-          article_id: 1,
-          comment_id: expect.any(Number),
-          created_at: expect.any(String),
-          votes: expect.any(Number),
-          author: newComment.username,
-          body: newComment.body,
+        expect(body).toEqual({
+          msg: "No article found for id 1000",
+        });
+      });
+  });
+  test("status:400, article id invalid", () => {
+    const article_id = "INVALID";
+    return request(app)
+      .get(`/api/articles/${article_id}/comments`)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body).toEqual({
+          msg: "Bad Request",
         });
       });
   });
@@ -333,6 +331,46 @@ describe("6. POST /api/articles/:article_id/comments", () => {
           author: newComment.username,
           body: newComment.body,
         });
+      });
+  });
+  test("status:401, Invalid username", () => {
+    const newComment = {
+      username: "INVALID",
+      body: "Test commment on article 1",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(401)
+      .then(({ body }) => {
+        expect(body).toEqual({
+          msg: "Invalid username",
+        });
+      });
+  });
+  test("status:405, request body missing", () => {
+    const newComment = {
+      username: "butter_bridge",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(405)
+      .then(({ body }) => {
+        expect(body.msg).toEqual("Invalid request body");
+      });
+  });
+  test("status:404, article ID not found", () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "Test commment on article 1",
+    };
+    return request(app)
+      .post("/api/articles/1000/comments")
+      .send(newComment)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body).toEqual({ msg: "No article found for id 1000" });
       });
   });
 });
