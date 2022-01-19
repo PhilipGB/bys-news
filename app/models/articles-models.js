@@ -49,7 +49,15 @@ exports.selectArticleById = (article_id) => {
         `,
       [article_id]
     )
-    .then((result) => result.rows[0]);
+    .then((result) => {
+      if (result.rowCount) {
+        return result.rows[0];
+      }
+      return Promise.reject({
+        status: 404,
+        msg: `No article found for id ${article_id}`,
+      });
+    });
 };
 
 exports.updateVotesById = (article_id, inc_votes) => {
@@ -67,7 +75,15 @@ exports.updateVotesById = (article_id, inc_votes) => {
       `,
       [votes, article_id]
     )
-    .then((result) => result.rows[0]);
+    .then((result) => {
+      if (result.rowCount) {
+        return result.rows[0];
+      }
+      return Promise.reject({
+        status: 404,
+        msg: `No article found for id ${article_id}`,
+      });
+    });
 };
 
 exports.selectArticleComments = (article_id) => {

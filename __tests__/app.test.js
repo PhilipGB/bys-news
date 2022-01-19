@@ -60,6 +60,28 @@ describe("2. GET /api/articles/:article_id", () => {
         });
       });
   });
+  test("status:404, article id not found", () => {
+    const article_id = 1000;
+    return request(app)
+      .get(`/api/articles/${article_id}`)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body).toEqual({
+          msg: "No article found for id 1000",
+        });
+      });
+  });
+  test("status:400, article id invalid", () => {
+    const article_id = "INVALID";
+    return request(app)
+      .get(`/api/articles/${article_id}`)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body).toEqual({
+          msg: "Bad Request",
+        });
+      });
+  });
 });
 
 describe("3. PATCH /api/articles/:article_id", () => {
@@ -98,6 +120,43 @@ describe("3. PATCH /api/articles/:article_id", () => {
       .then(({ body }) => {
         console.log(body);
         expect(body.msg).toEqual("Invalid vote value");
+      });
+  });
+  test("status:405, responds with error for missing vote key", () => {
+    const article = {};
+    return request(app)
+      .patch("/api/articles/1")
+      .send(article)
+      .expect(405)
+      .then(({ body }) => {
+        console.log(body);
+        expect(body.msg).toEqual("Invalid request body");
+      });
+  });
+  test("status:405, responds with error for other property on request body", () => {
+    const article = {
+      inc_votes: 5,
+      invalid: "additional property",
+    };
+    return request(app)
+      .patch("/api/articles/1")
+      .send(article)
+      .expect(405)
+      .then(({ body }) => {
+        console.log(body);
+        expect(body.msg).toEqual("Invalid request body");
+      });
+  });
+  test("status:404, article id not found", () => {
+    const article = { inc_votes: -50 };
+    return request(app)
+      .patch("/api/articles/1000")
+      .send(article)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body).toEqual({
+          msg: "No article found for id 1000",
+        });
       });
   });
 });

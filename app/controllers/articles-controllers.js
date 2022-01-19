@@ -6,15 +6,23 @@ const {
   insertArticleComment,
 } = require("../models/articles-models.js");
 
-exports.getArticleById = (req, res) => {
+exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
 
-  selectArticleById(article_id).then((article) => {
-    res.status(200).send({ article: article });
-  });
+  selectArticleById(article_id)
+    .then((article) => {
+      res.status(200).send({ article: article });
+    })
+    .catch(next);
 };
 
 exports.patchVotesById = (req, res, next) => {
+  console.log(JSON.stringify(Object.keys(req.body)));
+
+  if (JSON.stringify(Object.keys(req.body)) !== '["inc_votes"]') {
+    res.status(405).send({ msg: "Invalid request body" });
+  }
+
   const { article_id } = req.params;
   const { inc_votes } = req.body;
 
