@@ -1,7 +1,7 @@
 {
-  "name": "be-nc-news",
+  "name": "bys-news",
   "version": "1.0.0",
-  "description": "bc-nc-news",
+  "description": "bys-news",
   "main": "index.js",
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
@@ -19,9 +19,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/northcoders/be-nc-news/issues"
+    "url": "https://github.com/BigYoSpeck/bys-newsissues"
   },
-  "homepage": "https://github.com/northcoders/be-nc-news#readme",
+  "homepage": "https://github.com/BigYoSpeck/bys-news#readme",
   "dependencies": {
     "dotenv": "^14.1.0",
     "express": "^4.17.2",
