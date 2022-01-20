@@ -1,6 +1,11 @@
 const db = require("../../db/connection.js");
 
-exports.selectArticles = (sort_by = "created_at", order = "desc", topic) => {
+exports.selectArticles = (
+  sort_by = "created_at",
+  order = "desc",
+  topic,
+  author
+) => {
   if (!["created_at", "author", "title", "topic", "votes"].includes(sort_by)) {
     return Promise.reject({ status: 400, msg: "Invalid sort query" });
   }
@@ -23,6 +28,9 @@ exports.selectArticles = (sort_by = "created_at", order = "desc", topic) => {
     if (!/^[A-Z]+$/i.test(topic)) {
       return Promise.reject({ status: 400, msg: "Invalid topic query" });
     }
+    articlesQuery += ` WHERE articles.topic = '${topic}'`;
+  }
+  if (author) {
     articlesQuery += ` WHERE articles.topic = '${topic}'`;
   }
 

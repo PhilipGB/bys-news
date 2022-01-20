@@ -1,17 +1,64 @@
-# Northcoders News API
+# Big Yo Speck News API
 
-## Background
+## Built by Philip Burgess (https://github.com/BigYoSpeck)
 
-We will be building an API for the purpose of accessing application data programmatically. The intention here is to mimic the building of a real world backend service (such as reddit) which should provide this information to the front end architecture.
+## Description
 
-Your database will be PSQL, and you will interact with it using [node-postgres](https://node-postgres.com/).
+Big Yo Speck News is a Node.js/Express based news API providing articles and commenting in JSON format using a PostgreSQL database.
 
+You can access the API at:[Heroku](https://bys-news.herokuapp.com/api)
 
-## Step 1 - Setting up your project
+## Setting up / Installation Requirements
 
-You will need to create _two_ `.env` files for your project: `.env.test` and `.env.development`. Into each, add `PGDATABASE=<database_name_here>`, with the correct database name for that environment (see `/db/setup.sql` for the database names). Double check that these `.env` files are .gitignored.
+### Prerequisites
 
-You have also been provided with a `db` folder with some data, a [setup.sql](./db/setup.sql) file and a `seeds` folder. You should also take a minute to familiarise yourself with the npm scripts you have been provided.
+Node.js 17.x [Node.js](https://nodejs.org/en/)
+PostgreSQL 12.9 [psql](https://www.postgresql.org/)
+
+### Dependencies
+
+dotenv 14.x [dotenv](https://www.npmjs.com/package/dotenv)
+express 4.x [express](https://www.npmjs.com/package/express)
+pg 8.x [node-postgres](https://www.npmjs.com/package/pg)
+pg-format 1.x [pg-format](https://www.npmjs.com/package/pg-format)
+
+### Dev Dependencies
+
+jest 27.x [jest](https://www.npmjs.com/package/jest)
+supertest 6.x [supertest](https://www.npmjs.com/package/supertest)
+nodemon 2.x [nodemon](https://www.npmjs.com/package/nodemon)
+
+### Cloning
+
+- In your terminal:
+
+        $ git clone https://github.com/BigYoSpeck/bys-news.git
+        $ cd bys-news
+
+## Running the Application
+
+- Initialising in Node
+  $ npm install
+
+- Installing dependencies
+  $ npm install dotenv
+  $ npm install express --save
+  $ npm install pg
+  $ npm install pg-format
+
+- Installing dev dependencies
+  $ npm i -D jest
+  $ npm i -D supertest
+  $ npm i -D nodemon
+
+You will need to create _two_ `.env` files for the app: `.env.test` and `.env.development`. Into `.env.test` add `PGDATABASE=<database_name_here>` with your choice of database name for both the dev and test environment.
+
+There is a provided `db` folder with some data, a [setup.sql](./db/setup.sql) file and a `seeds` folder.
+
+- Setup database
+  $ npm run setup-dbs && npm run seed
+
+TODO
 
 The job of `index.js` in each the data folders is to export out all the data from that folder, currently stored in separate files. This is so that, when you need access to the data elsewhere, you can write one convenient require statement - to the index file, rather than having to require each file individually. Think of it like a index of a book - a place to refer to! Make sure the index file exports an object with values of the data from that folder with the keys:
 

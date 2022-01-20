@@ -268,7 +268,7 @@ describe("4. GET /api/articles", () => {
 });
 
 describe("5. GET /api/articles/:article_id/comments", () => {
-  test("status:200, responds with an array of topics objects", () => {
+  test("status:200, responds with an array of comments objects", () => {
     return request(app)
       .get("/api/articles/1/comments")
       .expect(200)
