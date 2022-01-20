@@ -87,7 +87,11 @@ GET /api/articles/:article_id/comments
 POST /api/articles/:article_id/comments
 DELETE /api/comments/:comment_id
 GET /api
+GET /api/users
+GET /api/users/:username
 ```
+
+---
 
 #### **GET /api/topics**
 
@@ -201,6 +205,26 @@ Responds with:
 Responds with:
 
 - JSON describing all the available endpoints on your API, see the [endpoints.json](./endpoints.json) for an (incomplete) example.
+
+---
+
+#### **GET /api/users**
+
+Responds with:
+
+- an array of objects, each object should have the following property:
+  - `username`
+
+---
+
+#### **GET /api/users/:username**
+
+Responds with:
+
+- a user object which should have the following properties:
+  - `username`
+  - `avatar_url`
+  - `name`
 
 ---
 
