@@ -59,7 +59,8 @@ You will need to create _two_ `.env` files for the app: `.env.test` and `.env.de
 There is a provided `db` folder with some data, a [setup.sql](./db/setup.sql) file and a `seeds` folder.
 
 - Setup database
-  $ npm run setup-dbs && npm run seed
+
+        $ npm run setup-dbs && npm run seed
 
 TODO
 
