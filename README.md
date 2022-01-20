@@ -62,7 +62,7 @@ There is a provided `db` folder with some data, a [setup.sql](./db/setup.sql) fi
 
         $ npm run setup-dbs && npm run seed
 
-TODO
+<!-- TODO
 
 The job of `index.js` in each the data folders is to export out all the data from that folder, currently stored in separate files. This is so that, when you need access to the data elsewhere, you can write one convenient require statement - to the index file, rather than having to require each file individually. Think of it like a index of a book - a place to refer to! Make sure the index file exports an object with values of the data from that folder with the keys:
 
@@ -417,4 +417,4 @@ Should:
 
 Respond with:
 
-- status 204 and no content
+- status 204 and no content -->
