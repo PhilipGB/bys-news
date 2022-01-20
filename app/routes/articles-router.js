@@ -7,12 +7,13 @@ const {
   postArticleComment,
 } = require("../controllers/articles-controllers.js");
 
-articlesRouter.get("/", getArticles);
+articlesRouter.route("/").get(getArticles);
 
-articlesRouter.get("/:article_id", getArticleById);
-articlesRouter.patch("/:article_id", patchVotesById);
+articlesRouter.route("/:article_id").get(getArticleById).patch(patchVotesById);
 
-articlesRouter.get("/:article_id/comments", getArticleComments);
-articlesRouter.post("/:article_id/comments", postArticleComment);
+articlesRouter
+  .route("/:article_id/comments")
+  .get(getArticleComments)
+  .post(postArticleComment);
 
 module.exports = articlesRouter;

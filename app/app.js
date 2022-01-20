@@ -1,5 +1,5 @@
 const express = require("express");
-const apiRouter = require("./routes/api-router.js");
+const { apiRouter } = require("./routes/index.js");
 const { errorHandlers, invalidURL } = require("./error-handlers.js");
 
 const app = express();
