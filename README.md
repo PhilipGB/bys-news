@@ -6,27 +6,27 @@
 
 Big Yo Speck News is a Node.js/Express based news API providing articles and commenting in JSON format using a PostgreSQL database.
 
-You can access the API at:[Heroku](https://bys-news.herokuapp.com/api)
+You can access the API at: [Heroku](https://bys-news.herokuapp.com/api)
 
 ## Setting up / Installation Requirements
 
 ### Prerequisites
 
-Node.js 17.x [Node.js](https://nodejs.org/en/)
-PostgreSQL 12.9 [psql](https://www.postgresql.org/)
+- Node.js 17.x [Node.js](https://nodejs.org/en/)
+- PostgreSQL 12.9 [psql](https://www.postgresql.org/)
 
 ### Dependencies
 
-dotenv 14.x [dotenv](https://www.npmjs.com/package/dotenv)
-express 4.x [express](https://www.npmjs.com/package/express)
-pg 8.x [node-postgres](https://www.npmjs.com/package/pg)
-pg-format 1.x [pg-format](https://www.npmjs.com/package/pg-format)
+- dotenv 14.x [dotenv](https://www.npmjs.com/package/dotenv)
+- express 4.x [express](https://www.npmjs.com/package/express)
+- pg 8.x [node-postgres](https://www.npmjs.com/package/pg)
+- pg-format 1.x [pg-format](https://www.npmjs.com/package/pg-format)
 
 ### Dev Dependencies
 
-jest 27.x [jest](https://www.npmjs.com/package/jest)
-supertest 6.x [supertest](https://www.npmjs.com/package/supertest)
-nodemon 2.x [nodemon](https://www.npmjs.com/package/nodemon)
+- jest 27.x [jest](https://www.npmjs.com/package/jest)
+- supertest 6.x [supertest](https://www.npmjs.com/package/supertest)
+- nodemon 2.x [nodemon](https://www.npmjs.com/package/nodemon)
 
 ### Cloning
 
@@ -38,15 +38,18 @@ nodemon 2.x [nodemon](https://www.npmjs.com/package/nodemon)
 ## Running the Application
 
 - Initialising in Node
+
   $ npm install
 
 - Installing dependencies
+
   $ npm install dotenv
   $ npm install express --save
   $ npm install pg
   $ npm install pg-format
 
 - Installing dev dependencies
+
   $ npm i -D jest
   $ npm i -D supertest
   $ npm i -D nodemon
