@@ -394,3 +394,45 @@ describe("8. GET /api", () => {
       });
   });
 });
+
+describe("9. GET /api/users", () => {
+  it("responds with status: 200 and a json object containing all users", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .expect("Content-Type", "application/json; charset=utf-8")
+      .then((res) => {
+        expect(res.body.users[0]).toEqual({
+          username: expect.any(String),
+          avatar_url: expect.any(String),
+          name: expect.any(String),
+        });
+      });
+  });
+});
+
+describe("10. GET /api/users/:username", () => {
+  test("status:200, responds with an object of username", () => {
+    return request(app)
+      .get("/api/users/butter_bridge")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toEqual({
+          user: {
+            username: "butter_bridge",
+            avatar_url:
+              "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
+            name: "jonny",
+          },
+        });
+      });
+  });
+  test("status:404, username not found", () => {
+    return request(app)
+      .get("/api/users/NO_USER")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body).toEqual({ msg: "No user found for NO_USER" });
+      });
+  });
+});

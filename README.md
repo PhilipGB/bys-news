@@ -1,4 +1,4 @@
-# Big Yo Speck News API
+# BigYoSpeck News API
 
 ## Built by Philip Burgess (https://github.com/BigYoSpeck)
 
