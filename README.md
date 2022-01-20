@@ -39,20 +39,20 @@ You can access the API at: [Heroku](https://bys-news.herokuapp.com/api)
 
 - Initialising in Node
 
-  $ npm install
+        $ npm install
 
 - Installing dependencies
 
-  $ npm install dotenv
-  $ npm install express --save
-  $ npm install pg
-  $ npm install pg-format
+        $ npm install dotenv
+        $ npm install express --save
+        $ npm install pg
+        $ npm install pg-format
 
 - Installing dev dependencies
 
-  $ npm i -D jest
-  $ npm i -D supertest
-  $ npm i -D nodemon
+        $ npm i -D jest
+        $ npm i -D supertest
+        $ npm i -D nodemon
 
 You will need to create _two_ `.env` files for the app: `.env.test` and `.env.development`. Into `.env.test` add `PGDATABASE=<database_name_here>` with your choice of database name for both the dev and test environment.
 
