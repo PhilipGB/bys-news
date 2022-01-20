@@ -74,7 +74,7 @@ To run the dev environment
 
 This can then be accessed at [http://127.0.0.1:9090/api](http://127.0.0.1:9090/api)
 
-I recommend the Google Chrome extension [JSON Viewer](https://chrome.google.com/webstore/detail/json-viewer/) for inspecting the available endpoints.
+I recommend the Google Chrome extension [JSON Viewer](https://chrome.google.com/webstore/detail/json-viewer/gbmdgpbipfallnflgajpaliibnhdgobh) for inspecting the available endpoints.
 
 ## Available endpoints
 
