@@ -13,7 +13,6 @@ exports.getUsers = (req, res, next) => {
 
 exports.getUserByUsername = (req, res, next) => {
   const { username } = req.params;
-  console.log(username);
 
   selectUserByUsername(username)
     .then((user) => {
