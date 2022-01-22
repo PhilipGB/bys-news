@@ -12,7 +12,7 @@ You can access the API at: [Heroku](https://bys-news.herokuapp.com/api)
 
 ### Prerequisites
 
-- Node.js 17.x [Node.js](https://nodejs.org/en/)
+- Node.js LTS 16.13.x [Node.js](https://nodejs.org/en/)
 - PostgreSQL 12.9 [psql](https://www.postgresql.org/)
 
 ### Dependencies
