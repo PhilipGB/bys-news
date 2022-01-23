@@ -24,14 +24,14 @@ exports.selectArticles = (
             comments ON comments.article_id = articles.article_id      
       `;
 
+  // TODO fix for multiple WHERE
   if (topic) {
     if (!/^[A-Z]+$/i.test(topic)) {
       return Promise.reject({ status: 400, msg: "Invalid topic query" });
     }
     articlesQuery += ` WHERE articles.topic = '${topic}'`;
-  }
-  if (author) {
-    articlesQuery += ` WHERE articles.topic = '${topic}'`;
+  } else if (author) {
+    articlesQuery += ` WHERE articles.author = '${author}'`;
   }
 
   articlesQuery += ` GROUP BY articles.article_id ORDER BY ${sort_by} ${order};`;
