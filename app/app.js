@@ -1,9 +1,10 @@
 const express = require("express");
 const { apiRouter } = require("./routes/index.js");
 const { errorHandlers, invalidURL } = require("./error-handlers.js");
+const cors = require("cors");
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 
 // TODO Logging
