@@ -6,7 +6,16 @@ exports.selectArticles = (
   topic,
   author
 ) => {
-  if (!["created_at", "author", "title", "topic", "votes"].includes(sort_by)) {
+  if (
+    ![
+      "created_at",
+      "author",
+      "title",
+      "topic",
+      "votes",
+      "comment_count",
+    ].includes(sort_by)
+  ) {
     return Promise.reject({ status: 400, msg: "Invalid sort query" });
   }
 
