@@ -75,6 +75,22 @@ exports.selectArticleById = (article_id) => {
     });
 };
 
+exports.insertArticle = (author, title, topic, body) => {
+  return db
+    .query(
+      `INSERT INTO articles 
+        (title, topic, author, body) 
+      VALUES 
+        ($1, $2, $3, $4) 
+      RETURNING *;`,
+      [title, topic, author, body]
+    )
+    .then(({ rows }) => rows[0])
+    .catch((err) => {
+      throw err;
+    });
+};
+
 exports.updateVotesById = (article_id, inc_votes) => {
   const votes = parseInt(inc_votes);
   if (!votes) {
