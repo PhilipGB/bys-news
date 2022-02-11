@@ -122,7 +122,7 @@ exports.selectArticleComments = (article_id) => {
     .query(
       `
           SELECT 
-              author AS username, body 
+              author AS username, body, comment_id 
           FROM comments 
           WHERE article_id = $1;
       `,
