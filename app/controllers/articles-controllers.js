@@ -41,7 +41,7 @@ exports.getArticles = (req, res, next) => {
     .catch(next);
 };
 
-exports.postArticleComment = (req, res, next) => {
+exports.postArticle = (req, res, next) => {
   const { author, title, topic, body } = req.body;
   insertArticle(author, title, topic, body)
     .then((article) => {
