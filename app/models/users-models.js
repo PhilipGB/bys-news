@@ -49,6 +49,6 @@ exports.selecCommentsByUsername = (username) => {
           msg: `No user found for ${username}`,
         });
       }
-      return result.rows[0];
+      return result.rows;
     });
 };
