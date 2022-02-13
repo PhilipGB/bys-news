@@ -31,3 +31,24 @@ exports.selectUserByUsername = (username) => {
       return result.rows[0];
     });
 };
+
+exports.selecCommentsByUsername = (username) => {
+  return db
+    .query(
+      `
+              SELECT *
+              FROM comments
+              WHERE author = $1;
+          `,
+      [username]
+    )
+    .then((result) => {
+      if (!result.rowCount) {
+        return Promise.reject({
+          status: 404,
+          msg: `No user found for ${username}`,
+        });
+      }
+      return result.rows[0];
+    });
+};

@@ -2,6 +2,7 @@ const usersRouter = require("express").Router();
 const {
   getUsers,
   getUserByUsername,
+  getCommentsByUsername,
 } = require("../controllers/users-controllers.js");
 
 usersRouter
@@ -20,5 +21,7 @@ usersRouter
   .patch((req, res) => {
     res.status(200).send("All OK from PATCH /api/users/:username");
   });
+
+usersRouter.route("/:username/comments").get(getCommentsByUsername);
 
 module.exports = usersRouter;
