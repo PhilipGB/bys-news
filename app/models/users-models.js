@@ -37,11 +37,10 @@ exports.selecCommentsByUsername = (username) => {
     .query(
       `
               SELECT 
-                comments.author AS username, comments.*,
-                articles.title, articles.topic
+                comments.author AS username, comments.*
+            
               FROM comments
-              JOIN
-                articles ON articles_article_id = comments.article_id
+              
               WHERE comments.author = $1;
           `,
       [username]
