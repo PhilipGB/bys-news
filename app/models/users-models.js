@@ -38,7 +38,7 @@ exports.selecCommentsByUsername = (username) => {
       `
               SELECT 
                 comments.author AS username, 
-                comments.*, articles.*
+                comments.*, articles.title
               FROM comments
               JOIN 
                 articles ON articles.article_id = comments.article_id
