@@ -40,7 +40,7 @@ exports.selecCommentsByUsername = (username) => {
                 comments.author AS username, comments.*,
                 articles.title, articles.topic
               FROM comments
-              LEFT JOIN
+              JOIN
                 articles ON articles_article_id = comments.article_id
               WHERE comments.author = $1;
           `,
