@@ -55,7 +55,7 @@ const seed = (data) => {
             body VARCHAR NOT NULL,
             votes INT DEFAULT 0,
             author VARCHAR(63) REFERENCES users(username),
-            article_id INT REFERENCES articles(article_id),
+            article_id INT REFERENCES articles(article_id) ON DELETE SET NULL,
             created_at TIMESTAMP DEFAULT now()
           );
         `);

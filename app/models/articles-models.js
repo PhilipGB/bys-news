@@ -161,3 +161,21 @@ exports.insertArticleComment = (article_id, username, body) => {
       throw err;
     });
 };
+
+exports.deleteArticle = (article_id) => {
+  return db
+    .query(
+      `
+        DELETE FROM articles WHERE article_id = $1;
+      `,
+      [article_id]
+    )
+    .then((result) => {
+      if (!result.rowCount) {
+        throw {
+          status: 404,
+          msg: `No article found for id ${article_id}`,
+        };
+      }
+    });
+};

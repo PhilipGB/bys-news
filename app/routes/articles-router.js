@@ -6,11 +6,16 @@ const {
   getArticleComments,
   postArticleComment,
   postArticle,
+  removeArticleById,
 } = require("../controllers/articles-controllers.js");
 
 articlesRouter.route("/").get(getArticles).post(postArticle);
 
-articlesRouter.route("/:article_id").get(getArticleById).patch(patchVotesById);
+articlesRouter
+  .route("/:article_id")
+  .get(getArticleById)
+  .patch(patchVotesById)
+  .delete(removeArticleById);
 
 articlesRouter
   .route("/:article_id/comments")
