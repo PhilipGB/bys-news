@@ -1,6 +1,6 @@
 # BigYoSpeck News API
 
-## Built by Philip Burgess (https://github.com/BigYoSpeck)
+## Built by Philip Burgess (https://github.com/PhilipGB)
 
 ## Description
 
