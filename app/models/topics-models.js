@@ -1,5 +1,5 @@
-import { query } from '../../db/connection.js';
+const db = require("../../db/connection.js");
 
-export function selectTopics() {
-  return query('SELECT * FROM topics;').then((result) => result.rows);
-}
+exports.selectTopics = () => {
+  return db.query("SELECT * FROM topics;").then((result) => result.rows);
+};

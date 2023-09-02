@@ -1,6 +1,6 @@
-import { deleteComment } from '../models/comments-models.js';
+const { deleteComment } = require("../models/comments-models.js");
 
-export function removeComment(req, res, next) {
+exports.removeComment = (req, res, next) => {
   const { comment_id } = req.params;
 
   deleteComment(comment_id)
@@ -8,4 +8,4 @@ export function removeComment(req, res, next) {
       res.status(204).send();
     })
     .catch(next);
-}
+};

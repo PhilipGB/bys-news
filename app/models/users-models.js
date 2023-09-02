@@ -1,36 +1,41 @@
-import { query } from '../../db/connection.js';
+const db = require("../../db/connection.js");
 
-export function selectUsers() {
-  return query(
-    `
+exports.selectUsers = () => {
+  return db
+    .query(
+      `
             SELECT *
             FROM users;
         `
-  ).then((result) => result.rows);
-}
+    )
+    .then((result) => result.rows);
+};
 
-export function selectUserByUsername(username) {
-  return query(
-    `
+exports.selectUserByUsername = (username) => {
+  return db
+    .query(
+      `
               SELECT *
               FROM users
               WHERE username = $1;
           `,
-    [username]
-  ).then((result) => {
-    if (!result.rowCount) {
-      return Promise.reject({
-        status: 404,
-        msg: `No user found for ${username}`,
-      });
-    }
-    return result.rows[0];
-  });
-}
+      [username]
+    )
+    .then((result) => {
+      if (!result.rowCount) {
+        return Promise.reject({
+          status: 404,
+          msg: `No user found for ${username}`,
+        });
+      }
+      return result.rows[0];
+    });
+};
 
-export function selectCommentsByUsername(username) {
-  return query(
-    `
+exports.selecCommentsByUsername = (username) => {
+  return db
+    .query(
+      `
               SELECT 
                 comments.author AS username, 
                 comments.*, articles.title,
@@ -40,14 +45,15 @@ export function selectCommentsByUsername(username) {
                 articles ON articles.article_id = comments.article_id
               WHERE comments.author = $1;
           `,
-    [username]
-  ).then((result) => {
-    if (!result.rowCount) {
-      return Promise.reject({
-        status: 404,
-        msg: `No user found for ${username}`,
-      });
-    }
-    return result.rows;
-  });
-}
+      [username]
+    )
+    .then((result) => {
+      if (!result.rowCount) {
+        return Promise.reject({
+          status: 404,
+          msg: `No user found for ${username}`,
+        });
+      }
+      return result.rows;
+    });
+};

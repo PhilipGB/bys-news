@@ -1,11 +1,11 @@
-import express, { json } from 'express';
-import { apiRouter } from './routes/index.js';
-import { errorHandlers, invalidURL } from './error-handlers.js';
-import cors from 'cors';
+const express = require('express');
+const { apiRouter } = require('./routes/index.js');
+const { errorHandlers, invalidURL } = require('./error-handlers.js');
+const cors = require('cors');
 
 const app = express();
 app.use(cors());
-app.use(json());
+app.use(express.json());
 
 // TODO Logging
 app.use((req, _res, next) => {
@@ -17,4 +17,4 @@ app.use('/api', apiRouter);
 app.all('/*', invalidURL);
 app.use(errorHandlers);
 
-export default app;
+module.exports = app;

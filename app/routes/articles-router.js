@@ -1,5 +1,5 @@
-const articlesRouter = require('express').Router();
-import {
+const articlesRouter = require("express").Router();
+const {
   getArticleById,
   patchVotesById,
   getArticles,
@@ -7,19 +7,19 @@ import {
   postArticleComment,
   postArticle,
   removeArticleById,
-} from '../controllers/articles-controllers.js';
+} = require("../controllers/articles-controllers.js");
 
-articlesRouter.route('/').get(getArticles).post(postArticle);
+articlesRouter.route("/").get(getArticles).post(postArticle);
 
 articlesRouter
-  .route('/:article_id')
+  .route("/:article_id")
   .get(getArticleById)
   .patch(patchVotesById)
   .delete(removeArticleById);
 
 articlesRouter
-  .route('/:article_id/comments')
+  .route("/:article_id/comments")
   .get(getArticleComments)
   .post(postArticleComment);
 
-export default articlesRouter;
+module.exports = articlesRouter;

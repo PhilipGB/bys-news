@@ -1,3 +1,3 @@
-export function getApi(_req, res) {
-  res.status(200).send(require('../endpoints.json'));
-}
+exports.getApi = (req, res) => {
+  res.status(200).send(require("../endpoints.json"));
+};
