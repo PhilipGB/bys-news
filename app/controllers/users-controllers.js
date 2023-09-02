@@ -1,18 +1,18 @@
-const {
+import {
   selectUsers,
   selectUserByUsername,
-  selecCommentsByUsername,
-} = require("../models/users-models.js");
+  selectCommentsByUsername,
+} from '../models/users-models.js';
 
-exports.getUsers = (req, res, next) => {
+export function getUsers(_req, res, next) {
   selectUsers()
     .then((users) => {
       res.status(200).send({ users: users });
     })
     .catch(next);
-};
+}
 
-exports.getUserByUsername = (req, res, next) => {
+export function getUserByUsername(req, res, next) {
   const { username } = req.params;
 
   selectUserByUsername(username)
@@ -20,14 +20,14 @@ exports.getUserByUsername = (req, res, next) => {
       res.status(200).send({ user: user });
     })
     .catch(next);
-};
+}
 
-exports.getCommentsByUsername = (req, res, next) => {
+export function getCommentsByUsername(req, res, next) {
   const { username } = req.params;
 
-  selecCommentsByUsername(username)
+  selectCommentsByUsername(username)
     .then((comments) => {
       res.status(200).send({ comments: comments });
     })
     .catch(next);
-};
+}

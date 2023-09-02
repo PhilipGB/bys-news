@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+import { Pool } from 'pg';
 const ENV = process.env.NODE_ENV || 'development';
 
 require('dotenv').config({
@@ -19,4 +19,4 @@ if (ENV === 'production') {
 // console.log(ENV);
 // console.log(config.connectionString);
 
-module.exports = new Pool(config);
+export default new Pool(config);

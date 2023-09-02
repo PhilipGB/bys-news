@@ -1,25 +1,23 @@
-const format = require("pg-format");
-const db = require("../connection.js");
+import format from 'pg-format';
+import { query } from '../connection.js';
 
 const seed = (data) => {
   const { articleData, commentData, topicData, userData } = data;
 
   return (
-    db
-      // Drop tables
-      .query(`DROP TABLE IF EXISTS comments;`)
+    query(`DROP TABLE IF EXISTS comments;`)
       .then(() => {
-        return db.query(`DROP TABLE IF EXISTS articles`);
+        return query(`DROP TABLE IF EXISTS articles`);
       })
       .then(() => {
-        return db.query(`DROP TABLE IF EXISTS users`);
+        return query(`DROP TABLE IF EXISTS users`);
       })
       .then(() => {
-        return db.query(`DROP TABLE IF EXISTS topics`);
+        return query(`DROP TABLE IF EXISTS topics`);
       })
       // Create tables
       .then(() => {
-        return db.query(`
+        return query(`
           CREATE TABLE topics (
             slug VARCHAR(63) PRIMARY KEY,
             description VARCHAR(255) NOT NULL
@@ -27,7 +25,7 @@ const seed = (data) => {
         `);
       })
       .then(() => {
-        return db.query(`
+        return query(`
           CREATE TABLE users (
             username VARCHAR(63) PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
@@ -36,7 +34,7 @@ const seed = (data) => {
         `);
       })
       .then(() => {
-        return db.query(`
+        return query(`
           CREATE TABLE articles (
             article_id SERIAL PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
@@ -49,7 +47,7 @@ const seed = (data) => {
         `);
       })
       .then(() => {
-        return db.query(`
+        return query(`
           CREATE TABLE comments (
             comment_id SERIAL PRIMARY KEY,
             body VARCHAR NOT NULL,
@@ -71,7 +69,7 @@ const seed = (data) => {
         `,
           topicData.map((topic) => [topic.slug, topic.description])
         );
-        return db.query(insertTopics);
+        return query(insertTopics);
       })
       .then(() => {
         const insertUsers = format(
@@ -83,7 +81,7 @@ const seed = (data) => {
         `,
           userData.map((user) => [user.username, user.name, user.avatar_url])
         );
-        return db.query(insertUsers);
+        return query(insertUsers);
       })
       .then(() => {
         const insertArticles = format(
@@ -102,7 +100,7 @@ const seed = (data) => {
             article.votes,
           ])
         );
-        return db.query(insertArticles);
+        return query(insertArticles);
       })
       .then(() => {
         const insertComments = format(
@@ -121,9 +119,9 @@ const seed = (data) => {
             comment.body,
           ])
         );
-        return db.query(insertComments);
+        return query(insertComments);
       })
   );
 };
 
-module.exports = seed;
+export default seed;

@@ -1,7 +1,7 @@
-const { selectTopics } = require("../models/topics-models.js");
+import { selectTopics } from '../models/topics-models.js';
 
-exports.getTopics = (req, res) => {
+export function getTopics(_req, res) {
   selectTopics().then((topics) => {
     res.status(200).send({ topics: topics });
   });
-};
+}

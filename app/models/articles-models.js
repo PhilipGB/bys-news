@@ -1,26 +1,26 @@
-const db = require("../../db/connection.js");
+import { query } from '../../db/connection.js';
 
-exports.selectArticles = (
-  sort_by = "created_at",
-  order = "desc",
+export function selectArticles(
+  sort_by = 'created_at',
+  order = 'desc',
   topic,
   author
-) => {
+) {
   if (
     ![
-      "created_at",
-      "author",
-      "title",
-      "topic",
-      "votes",
-      "comment_count",
+      'created_at',
+      'author',
+      'title',
+      'topic',
+      'votes',
+      'comment_count',
     ].includes(sort_by)
   ) {
-    return Promise.reject({ status: 400, msg: "Invalid sort query" });
+    return Promise.reject({ status: 400, msg: 'Invalid sort query' });
   }
 
-  if (!["asc", "desc"].includes(order)) {
-    return Promise.reject({ status: 400, msg: "Invalid order query" });
+  if (!['asc', 'desc'].includes(order)) {
+    return Promise.reject({ status: 400, msg: 'Invalid order query' });
   }
 
   let articlesQuery = `
@@ -36,7 +36,7 @@ exports.selectArticles = (
   // TODO fix for multiple WHERE
   if (topic) {
     if (!/^[A-Z]+$/i.test(topic)) {
-      return Promise.reject({ status: 400, msg: "Invalid topic query" });
+      return Promise.reject({ status: 400, msg: 'Invalid topic query' });
     }
     articlesQuery += ` WHERE articles.topic = '${topic}'`;
   } else if (author) {
@@ -45,13 +45,12 @@ exports.selectArticles = (
 
   articlesQuery += ` GROUP BY articles.article_id ORDER BY ${sort_by} ${order};`;
 
-  return db.query(articlesQuery).then((result) => result.rows);
-};
+  return query(articlesQuery).then((result) => result.rows);
+}
 
-exports.selectArticleById = (article_id) => {
-  return db
-    .query(
-      `
+export function selectArticleById(article_id) {
+  return query(
+    `
             SELECT 
                 *,
                 (
@@ -62,96 +61,89 @@ exports.selectArticleById = (article_id) => {
             FROM articles 
             WHERE article_id = $1;
         `,
-      [article_id]
-    )
-    .then((result) => {
-      if (result.rowCount) {
-        return result.rows[0];
-      }
-      return Promise.reject({
-        status: 404,
-        msg: `No article found for id ${article_id}`,
-      });
+    [article_id]
+  ).then((result) => {
+    if (result.rowCount) {
+      return result.rows[0];
+    }
+    return Promise.reject({
+      status: 404,
+      msg: `No article found for id ${article_id}`,
     });
-};
+  });
+}
 
-exports.insertArticle = (author, title, topic, body) => {
-  return db
-    .query(
-      `INSERT INTO articles 
+export function insertArticle(author, title, topic, body) {
+  return query(
+    `INSERT INTO articles 
         (title, topic, author, body) 
       VALUES 
         ($1, $2, $3, $4) 
       RETURNING *;`,
-      [title, topic, author, body]
-    )
+    [title, topic, author, body]
+  )
     .then(({ rows }) => rows[0])
     .catch((err) => {
       throw err;
     });
-};
+}
 
-exports.updateVotesById = (article_id, inc_votes) => {
+export function updateVotesById(article_id, inc_votes) {
   const votes = parseInt(inc_votes);
   if (!votes) {
-    return Promise.reject({ status: 400, msg: "Invalid vote value" });
+    return Promise.reject({ status: 400, msg: 'Invalid vote value' });
   }
-  return db
-    .query(
-      `
+  return query(
+    `
           UPDATE articles 
           SET votes = votes + $1
           WHERE article_id = $2
           RETURNING *;
       `,
-      [votes, article_id]
-    )
-    .then((result) => {
-      if (result.rowCount) {
-        return result.rows[0];
-      }
-      return Promise.reject({
-        status: 404,
-        msg: `No article found for id ${article_id}`,
-      });
+    [votes, article_id]
+  ).then((result) => {
+    if (result.rowCount) {
+      return result.rows[0];
+    }
+    return Promise.reject({
+      status: 404,
+      msg: `No article found for id ${article_id}`,
     });
-};
+  });
+}
 
-exports.selectArticleComments = (article_id) => {
-  return db
-    .query(
-      `
+export function selectArticleComments(article_id) {
+  return query(
+    `
           SELECT 
               author AS username, body, comment_id 
           FROM comments 
           WHERE article_id = $1;
       `,
-      [article_id]
-    )
-    .then((result) => {
-      if (result.rowCount) {
-        return result.rows;
-      }
-      return Promise.reject({
-        status: 404,
-        msg: `No article found for id ${article_id}`,
-      });
+    [article_id]
+  ).then((result) => {
+    if (result.rowCount) {
+      return result.rows;
+    }
+    return Promise.reject({
+      status: 404,
+      msg: `No article found for id ${article_id}`,
     });
-};
+  });
+}
 
-exports.insertArticleComment = (article_id, username, body) => {
-  return db
-    .query(
-      `INSERT INTO comments 
+export function insertArticleComment(article_id, username, body) {
+  return query(
+    `INSERT INTO comments 
         (author, article_id, body) 
       VALUES 
         ($1, $2, $3) 
       RETURNING *;`,
-      [username, article_id, body]
-    )
+    [username, article_id, body]
+  )
     .then(({ rows }) => rows[0])
     .catch((err) => {
-      if (err.constraint === "comments_article_id_fkey") {
+      if (err.constraint === 'comments_article_id_fkey') {
         return Promise.reject({
           status: 404,
           msg: `No article found for id ${article_id}`,
@@ -160,22 +152,20 @@ exports.insertArticleComment = (article_id, username, body) => {
 
       throw err;
     });
-};
+}
 
-exports.deleteArticle = (article_id) => {
-  return db
-    .query(
-      `
+export function deleteArticle(article_id) {
+  return query(
+    `
         DELETE FROM articles WHERE article_id = $1;
       `,
-      [article_id]
-    )
-    .then((result) => {
-      if (!result.rowCount) {
-        throw {
-          status: 404,
-          msg: `No article found for id ${article_id}`,
-        };
-      }
-    });
-};
+    [article_id]
+  ).then((result) => {
+    if (!result.rowCount) {
+      throw {
+        status: 404,
+        msg: `No article found for id ${article_id}`,
+      };
+    }
+  });
+}

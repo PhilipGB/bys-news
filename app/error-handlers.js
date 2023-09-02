@@ -1,8 +1,8 @@
-exports.invalidURL = (req, res) => {
+export function invalidURL(req, res) {
   res.status(404).send({ msg: 'Invalid URL' });
-};
+}
 
-exports.errorHandlers = (err, req, res, next) => {
+export function errorHandlers(err, req, res, next) {
   console.log(err);
 
   if (err.status && err.msg) {
@@ -16,4 +16,4 @@ exports.errorHandlers = (err, req, res, next) => {
   } else {
     res.status(500).send({ msg: 'Server error' });
   }
-};
+}

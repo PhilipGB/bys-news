@@ -1,27 +1,27 @@
-const usersRouter = require("express").Router();
-const {
+const usersRouter = require('express').Router();
+import {
   getUsers,
   getUserByUsername,
   getCommentsByUsername,
-} = require("../controllers/users-controllers.js");
+} from '../controllers/users-controllers.js';
 
 usersRouter
-  .route("/")
+  .route('/')
   .get(getUsers)
-  .post((req, res) => {
-    res.status(200).send("All OK from POST /api/users");
+  .post((_req, res) => {
+    res.status(200).send('All OK from POST /api/users');
   })
-  .patch((req, res) => {
-    res.status(200).send("All OK from PATCH /api/users");
+  .patch((_req, res) => {
+    res.status(200).send('All OK from PATCH /api/users');
   });
 
 usersRouter
-  .route("/:username")
+  .route('/:username')
   .get(getUserByUsername)
-  .patch((req, res) => {
-    res.status(200).send("All OK from PATCH /api/users/:username");
+  .patch((_req, res) => {
+    res.status(200).send('All OK from PATCH /api/users/:username');
   });
 
-usersRouter.route("/:username/comments").get(getCommentsByUsername);
+usersRouter.route('/:username/comments').get(getCommentsByUsername);
 
-module.exports = usersRouter;
+export default usersRouter;
