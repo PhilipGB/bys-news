@@ -1,4 +1,4 @@
-# BigYoSpeck News API
+# BYS News API
 
 ## Built by Philip Burgess (https://github.com/PhilipGB)
 
